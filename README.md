@@ -1,8 +1,19 @@
-<h1 align="center">⚡ ZMIIX-BOT ⚡</h1>
+<h1 class="typewriter">ZMIIX-BOT</h1>
 
-<h1 align="center">
-  𝙕 𝙈 𝙄 𝙄 𝙓 - 𝘽 𝙊 𝙏
-</h1>
+<style>
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+.typewriter {
+  overflow: hidden;
+  border-right: .15em solid orange;
+  white-space: nowrap;
+  width: 0;
+  animation: typing 2s steps(10) forwards;
+}
+</style>
+
 
 
 <p align="center">
