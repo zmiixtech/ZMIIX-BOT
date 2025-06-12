@@ -1,8 +1,9 @@
 <h1 align="center">⚡ ZMIIX-BOT ⚡</h1>
 
-<p align="center">
-  <img src="./logo.png" width="300" alt="ZMIXX Logo"/>
-</p>
+<h1 align="center">
+  𝙕 𝙈 𝙄 𝙄 𝙓 - 𝘽 𝙊 𝙏
+</h1>
+
 
 <p align="center">
   🤖 بوت عربي متعدد المهام  
