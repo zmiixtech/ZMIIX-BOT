@@ -1,18 +1,6 @@
-<h1 class="typewriter">ZMIIX-BOT</h1>
-
-<style>
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-.typewriter {
-  overflow: hidden;
-  border-right: .15em solid orange;
-  white-space: nowrap;
-  width: 0;
-  animation: typing 2s steps(10) forwards;
-}
-</style>
+<p align="center">
+  <img src="https://i.imgur.com/8aw4yXV.gif" alt="ZMIIX-BOT" width="400"/>
+</p>
 
 
 
