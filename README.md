@@ -41,10 +41,6 @@
 
 ---
 
-## 🖼️ الشعار
-
-](https://github.com/zmiixtech/ZMIIX-BOT/blob/main/logo.png?raw=true)
----
 
 ## 📬 معلومات التواصل
 
