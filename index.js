@@ -1,47 +1,34 @@
-const { default: makeWASocket, useMultiFileAuthState } = require("@whiskeysockets/baileys");
+const makeWASocket = require("@whiskeysockets/baileys").default;
+const { useSingleFileAuthState } = require("@whiskeysockets/baileys");
 const { Boom } = require("@hapi/boom");
-const fs = require("fs");
-const path = require("path");
-const P = require("pino");
-const config = require("./config");
+const { delay } = require("@whiskeysockets/baileys");
+const qrcode = require("qrcode-terminal"); // باش نطبع QR في التيرمنال
 
-async function startBot() {
-  const { state, saveCreds } = await useMultiFileAuthState(config.sessionName);
-  const sock = makeWASocket({
-    auth: state,
-    logger: P({ level: "silent" }),
-    printQRInTerminal: true,
-  });
+const { state, saveState } = useSingleFileAuthState('./auth_info.json');
 
-  // Load plugins
-  const pluginFolder = path.join(__dirname, "plugins");
-  fs.readdirSync(pluginFolder).forEach((file) => {
-    if (file.endsWith(".js")) {
-      const plugin = require(path.join(pluginFolder, file));
-      if (typeof plugin === "function") {
-        plugin(sock);
-      }
-    }
-  });
+async function startSock() {
+    const sock = makeWASocket({
+        auth: state,
+        printQRInTerminal: false // نلغيوها
+    });
 
-  sock.ev.on("creds.update", saveCreds);
+    sock.ev.on("creds.update", saveState);
 
-  sock.ev.on("messages.upsert", async ({ messages }) => {
-    const msg = messages[0];
-    if (!msg.message || msg.key.fromMe) return;
+    sock.ev.on("connection.update", (update) => {
+        const { connection, lastDisconnect, qr } = update;
+        if (qr) {
+            qrcode.generate(qr, { small: true }); // هادي باش تطبع QR ف التيرمينال
+        }
 
-    let text = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
-    const prefix = config.prefix.find((p) => text?.startsWith(p));
-    if (!prefix) return;
-
-    const args = text.slice(prefix.length).trim().split(/ +/);
-    const command = args.shift().toLowerCase();
-
-    sock.commandHandlers = sock.commandHandlers || {};
-    if (sock.commandHandlers[command]) {
-      sock.commandHandlers[command](sock, msg, args);
-    }
-  });
+        if (connection === "close") {
+            const shouldReconnect = lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut;
+            if (shouldReconnect) {
+                startSock();
+            }
+        } else if (connection === "open") {
+            console.log("✅ BOT Connected!");
+        }
+    });
 }
 
-startBot();
+startSock();
