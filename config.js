@@ -1,6 +1,6 @@
 module.exports = {
-  owner: ['2126XXXXXXX'], // Replace with your number
+  owner: ['212776003604'], // Replace with your number
   botname: 'ZmiixBot',
-  sessionName: 'session',
+  sessionName: 'ZMIIX',
   prefix: ['.'],
 };
